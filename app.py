@@ -15,8 +15,15 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Flask 애플리케이션 초기화
-app = Flask(__name__)
+# 프로젝트 기본 경로 설정 (Vercel Serverless 배포 환경 호환)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+
+# Flask 애플리케이션 초기화 (템플릿 및 정적 파일 경로 명시)
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, 'templates'),
+    static_folder=os.path.join(BASE_DIR, 'static')
+)
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', 'default-dev-secret-key')
 
 # Gemini API 클라이언트 초기화 (.env에서만 API Key 읽기)
