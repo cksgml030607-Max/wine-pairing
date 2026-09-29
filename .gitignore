@@ -1,0 +1,15 @@
+# Python 가상환경
+venv/
+
+# 환경변수 및 비밀 API 키 (절대 커밋 금지)
+.env
+.env.local
+
+# 파이썬 바이트코드 캐시
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 운영체제 생성 파일
+.DS_Store
+Thumbs.db

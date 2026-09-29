@@ -1,0 +1,542 @@
+/* ==========================================================
+   AI Food & Wine Pairing Agent - Luxury Hotel Wine Bar Theme
+   고급 호텔의 프라이빗 와인바 & 라운지 콘셉트의 모던 럭셔리 스타일
+   ========================================================== */
+
+/* 1. 디자인 시스템 변수 */
+:root {
+    --bg-dark: #0D0E12;              /* 딥 나이트 블랙 */
+    --card-bg: rgba(22, 24, 31, 0.88); /* 반투명 다크 글래스 */
+    --card-border: rgba(212, 175, 55, 0.22); /* 샴페인 골드 테두리 */
+    --gold-primary: #D4AF37;         /* 샴페인 골드 */
+    --gold-light: #F4E8C1;           /* 라이트 골드 */
+    --gold-hover: #E5C358;           /* 골드 버튼 호버 */
+    --wine-accent: #6C1D28;          /* 딥 버건디 와인 */
+    --wine-glow: rgba(108, 29, 40, 0.35);
+    
+    --text-primary: #F8F6F0;         /* 웜 아이보리 화이트 */
+    --text-secondary: #A0A5B5;       /* 부드러운 슬레이트 그레이 */
+    --text-gold: #E5C77A;            /* 앤틱 골드 텍스트 */
+    
+    --input-bg: #151720;             /* 입력창 다크 베이스 */
+    --input-border: #2C3040;         /* 입력창 기본 테두리 */
+    --input-focus: #D4AF37;          /* 포커스 골드 라인 */
+    
+    --error-bg: rgba(77, 18, 22, 0.85);
+    --error-border: #9B2C2C;
+    --error-text: #FEB2B2;
+
+    --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.7;
+    min-height: 100vh;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(108, 29, 40, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #090A0E 0%, #0D0E12 100%);
+}
+
+/* 은은한 앰비언트 무드 조명 */
+.ambient-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(120px);
+}
+.glow-1 {
+    top: -10%;
+    right: 5%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%);
+}
+.glow-2 {
+    bottom: -10%;
+    left: 5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(108, 29, 40, 0.2), transparent 70%);
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* 2. 헤더 섹션: 호텔 와인바 무드 */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header .badge {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    color: var(--gold-primary);
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(212, 175, 55, 0.06);
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.header .logo {
+    font-family: var(--font-serif);
+    font-size: 2.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FFFFFF 30%, var(--gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.header .subtitle {
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: -0.2px;
+}
+
+.header-divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    margin: 22px auto 0;
+}
+
+/* 3. 메인 콘텐츠 그리드 */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 4. 카드 디자인 (다크 글래스모피즘) */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-icon {
+    font-size: 1.25rem;
+}
+
+.card h2 {
+    font-family: var(--font-serif);
+    font-size: 1.55rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--gold-light);
+}
+
+.form-card .card-title-wrap {
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+/* 5. 폼 컨트롤 */
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.form-group .required {
+    color: #FF6B6B;
+}
+
+.form-group input[type="text"],
+.form-group select {
+    width: 100%;
+    padding: 13px 16px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    transition: all 0.25s ease;
+}
+
+.form-group input[type="text"]::placeholder {
+    color: #5A6072;
+    font-size: 0.88rem;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    background-color: #191C28;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.form-group select option {
+    background-color: #161822;
+    color: #F8F6F0;
+    padding: 10px;
+}
+
+.form-group .hint {
+    display: block;
+    color: #6C7284;
+    font-size: 0.8rem;
+    margin-top: 6px;
+}
+
+/* 6. Tone 선택 라디오 카드 */
+.tone-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(16, 18, 25, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.radio-card:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    background: rgba(212, 175, 55, 0.04);
+}
+
+.radio-card input[type="radio"] {
+    margin-top: 4px;
+    accent-color: var(--gold-primary);
+    transform: scale(1.15);
+}
+
+.radio-card:has(input[type="radio"]:checked) {
+    border-color: var(--gold-primary);
+    background: rgba(212, 175, 55, 0.08);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.12);
+}
+
+.radio-content strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--gold-light);
+    margin-bottom: 2px;
+}
+
+.radio-content span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* 7. 버튼 스타일링: 럭셔리 골드 & 와인 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #E6C260 0%, #C2982B 50%, #8E6B15 100%);
+    color: #111215;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #F3D279 0%, #D4AF37 50%, #A27B1C 100%);
+    box-shadow: 0 8px 26px rgba(212, 175, 55, 0.45);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    background: #2D303E;
+    color: #6C7284;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--gold-light);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+    background: rgba(212, 175, 55, 0.15);
+    border-color: var(--gold-primary);
+    color: #FFFFFF;
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+}
+
+/* 8. 결과 헤더 & 액션 버튼 */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.actions-group {
+    display: flex;
+    gap: 8px;
+}
+
+/* 9. 상태별 화면 */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-secondary);
+    margin: auto 0;
+}
+
+.empty-glass-icon {
+    font-size: 3.2rem;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.25));
+}
+
+.empty-title {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+}
+
+.empty-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 골드 펄스 로더 */
+.loading-state {
+    text-align: center;
+    padding: 70px 20px;
+    margin: auto 0;
+}
+
+.gold-pulse-loader {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pulse-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--gold-primary);
+    animation: goldPulse 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+.center-gem {
+    color: var(--gold-primary);
+    font-size: 1.4rem;
+    animation: gemShine 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes goldPulse {
+    0% { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes gemShine {
+    0% { transform: scale(0.85); filter: drop-shadow(0 0 4px var(--gold-primary)); }
+    100% { transform: scale(1.15); filter: drop-shadow(0 0 14px var(--gold-light)); }
+}
+
+.loading-title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+}
+
+.loading-text {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+/* 에러 배너 */
+.error-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    color: var(--error-text);
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+}
+
+/* 10. 마크다운 결과 렌더링 */
+.markdown-body {
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.96rem;
+    line-height: 1.85;
+    overflow-y: auto;
+    max-height: 580px;
+    padding-right: 8px;
+}
+
+/* 스크롤바 커스텀 */
+.markdown-body::-webkit-scrollbar {
+    width: 5px;
+}
+.markdown-body::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 10px;
+}
+
+.markdown-body h1, 
+.markdown-body h2, 
+.markdown-body h3 {
+    font-family: var(--font-serif);
+    color: var(--gold-light);
+    letter-spacing: 0.3px;
+    margin-top: 22px;
+    margin-bottom: 12px;
+}
+
+.markdown-body h1 { font-size: 1.55rem; border-bottom: 1px solid rgba(212, 175, 55, 0.2); padding-bottom: 8px; }
+.markdown-body h2 { font-size: 1.35rem; }
+.markdown-body h3 { font-size: 1.15rem; }
+
+.markdown-body p {
+    margin-bottom: 14px;
+    color: #E6E8EF;
+}
+
+.markdown-body ul, 
+.markdown-body ol {
+    padding-left: 22px;
+    margin-bottom: 16px;
+}
+
+.markdown-body li {
+    margin-bottom: 6px;
+    color: #DFE2EB;
+}
+
+.markdown-body blockquote {
+    border-left: 3px solid var(--gold-primary);
+    background: rgba(212, 175, 55, 0.05);
+    padding: 12px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 18px 0;
+    color: var(--gold-light);
+    font-style: italic;
+}
+
+.markdown-body strong {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+/* 11. 푸터 */
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-eng {
+    font-family: var(--font-serif);
+    letter-spacing: 2px;
+    font-size: 0.85rem;
+    color: var(--gold-primary);
+    margin-bottom: 4px;
+}
+
+.footer-copy {
+    color: #5A6072;
+    font-size: 0.78rem;
+}

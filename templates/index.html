@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sommelier | Luxury Food & Wine Pairing</title>
+    <!-- Google Fonts: 고급 호텔 와인바 느낌의 Cormorant Garamond & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- 외부 스타일 및 마크다운 렌더러 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- 배경 은은한 무드 조명 효과 -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="container">
+        <!-- 헤더 영역: 럭셔리 라운지 와인바 콘셉트 -->
+        <header class="header">
+            <div class="badge">PRIVATE SOMMELIER SERVICE</div>
+            <h1 class="logo">The Cellar & Atelier</h1>
+            <p class="subtitle">엄선된 미식과 최상의 마리아주(Mariage)를 완성하는 프라이빗 AI 소믈리에</p>
+            <div class="header-divider"></div>
+        </header>
+
+        <!-- 메인 콘텐츠 레이아웃 (폼 & 결과) -->
+        <main class="main-content">
+            <!-- 입력 폼 카드 -->
+            <section class="card form-card">
+                <div class="card-title-wrap">
+                    <span class="card-icon">🍸</span>
+                    <h2>페어링 셀렉션</h2>
+                </div>
+                <form id="pairingForm">
+                    <!-- 음식 / 식재료 입력 -->
+                    <div class="form-group">
+                        <label for="foodInput">
+                            요리 또는 주요 식재료 <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="foodInput" 
+                            name="food" 
+                            placeholder="예: 드라이에이징 한우 안심, 트러플 크림 뇨끼, 제주 딱새우" 
+                            required
+                            autocomplete="off"
+                        >
+                        <small class="hint">오늘의 디너 또는 준비 중인 요리를 입력해 주세요.</small>
+                    </div>
+
+                    <!-- 분위기 및 상황 입력 -->
+                    <div class="form-group">
+                        <label for="moodInput">다이닝 무드 & 상황 (선택)</label>
+                        <input 
+                            type="text" 
+                            id="moodInput" 
+                            name="mood" 
+                            placeholder="예: 조용한 호텔 라운지 데이트, 은은한 조명의 비즈니스 디너, 늦은 밤 위스키 타임"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <!-- 선호 주류 종류 선택 -->
+                    <div class="form-group">
+                        <label for="drinkTypeSelect">선호 주류 카테고리</label>
+                        <div class="select-wrapper">
+                            <select id="drinkTypeSelect" name="drink_type">
+                                <option value="전체 추천">✨ 소믈리에 추천 (전체 주류 중 최상의 마리아주)</option>
+                                <option value="레드 와인">🍷 레드 와인 (Grand Vin Red)</option>
+                                <option value="화이트 와인">🥂 화이트 와인 (Crisp & Rich White)</option>
+                                <option value="스파클링 와인 / 샴페인">🍾 샴페인 & 프레스티지 스파클링</option>
+                                <option value="로제 와인">🌸 로제 와인 (Elegance Rosé)</option>
+                                <option value="맥주 / 수제맥주">🍺 아티잔 크래프트 맥주 (Craft Beer)</option>
+                                <option value="위스키 / 하이볼">🥃 싱글몰트 위스키 & 프리미엄 하이볼</option>
+                                <option value="한국 전통주 / 청주 / 막걸리">🍶 프리미엄 전통 증류주 & 약청주</option>
+                                <option value="논알콜 페어링 음료">🍹 무알콜 파인다이닝 페어링 (Mocktail)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Tone 선택 (Prompt A vs Prompt B) -->
+                    <div class="form-group">
+                        <label>소믈리에 해설 스타일 <span class="required">*</span></label>
+                        <div class="tone-options">
+                            <label class="radio-card">
+                                <input type="radio" name="tone" value="expert" checked>
+                                <div class="radio-indicator"></div>
+                                <div class="radio-content">
+                                    <strong>마스터 소믈리에 큐레이션 (Prompt B)</strong>
+                                    <span>산도, 타닌, 떼루아, 적정 서빙 온도 및 글라스웨어까지 안내</span>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="tone" value="casual">
+                                <div class="radio-indicator"></div>
+                                <div class="radio-content">
+                                    <strong>친근한 미식 가이드 (Prompt A)</strong>
+                                    <span>부담 없이 편안하고 감각적인 홈바/라운지 톤의 설명</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 제출 버튼 -->
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        <span class="btn-text">페어링 큐레이션 요청</span>
+                        <span class="btn-sparkle">✦</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- 결과 표시 카드 -->
+            <section class="card result-card">
+                <div class="result-header">
+                    <div class="card-title-wrap">
+                        <span class="card-icon">🍷</span>
+                        <h2>큐레이션 노트</h2>
+                    </div>
+                    <!-- 액션 버튼 (복사, 다운로드) -->
+                    <div id="resultActions" class="actions-group" style="display: none;">
+                        <button id="copyBtn" class="btn btn-secondary btn-sm" title="추천 내용 복사">
+                            📋 노트 복사
+                        </button>
+                        <button id="downloadBtn" class="btn btn-secondary btn-sm" title="Markdown 파일 다운로드">
+                            💾 .md 저장
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 대기 안내 화면 -->
+                <div id="placeholderState" class="empty-state">
+                    <div class="empty-glass-icon">🍸</div>
+                    <p class="empty-title">Ready for Your Pairing</p>
+                    <p class="empty-desc">좌측에서 오늘 함께할 요리와 무드를 지정하시면<br>소믈리에가 최고의 마리아주를 제안합니다.</p>
+                </div>
+
+                <!-- 로딩 스피너 영역 -->
+                <div id="loadingState" class="loading-state" style="display: none;">
+                    <div class="gold-pulse-loader">
+                        <div class="pulse-ring"></div>
+                        <div class="center-gem">✦</div>
+                    </div>
+                    <p class="loading-title">Curating Pairing Note</p>
+                    <p class="loading-text">풍미의 구조와 어울리는 최고의 빈티지/주류를 선별하고 있습니다...</p>
+                </div>
+
+                <!-- 에러 메시지 알림 영역 -->
+                <div id="errorState" class="error-banner" style="display: none;">
+                    <span class="error-icon">⚠️</span>
+                    <span id="errorMessage" class="error-text"></span>
+                </div>
+
+                <!-- 최종 추천 텍스트 렌더링 영역 -->
+                <div id="resultContent" class="markdown-body" style="display: none;"></div>
+            </section>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <p class="footer-eng">THE CELLAR & ATELIER · PRIVATE SOMMELIER AGENT</p>
+            <p class="footer-copy">© 2026 Powered by Google Gemini Intelligence & Flask Architecture</p>
+        </footer>
+    </div>
+
+    <!-- 프론트엔드 제어 스크립트 -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
