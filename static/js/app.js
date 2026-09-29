@@ -45,8 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
         hideError();
 
         try {
-            // 백엔드 Flask의 /generate 엔드포인트로 비동기 POST 요청
-            const response = await fetch('/generate', {
+            // 백엔드 Flask의 /generate 엔드포인트로 비동기 POST 요청 (Vercel 경로 호환)
+            const apiUrl = window.location.pathname.startsWith('/flask') ? '/flask/generate' : '/generate';
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

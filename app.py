@@ -37,12 +37,15 @@ if api_key:
 
 
 @app.route('/')
+@app.route('/flask')
+@app.route('/flask/')
 def index():
     """메인 화면 렌더링"""
     return render_template('index.html')
 
 
 @app.route('/generate', methods=['POST'])
+@app.route('/flask/generate', methods=['POST'])
 def generate_pairing():
     """음식 및 상황 기반 AI 주류 페어링 추천 API"""
     if not request.is_json:
@@ -140,6 +143,18 @@ def generate_pairing():
         'success': True,
         'recommendation': recommendation_text
     })
+
+
+@app.errorhandler(404)
+def handle_404(e):
+    """404 발생 시 Vercel 라우팅 오차 방지를 위해 GET 요청은 index.html을 렌더링"""
+    logger.warning(f"404 요청 감지: path='{request.path}', method='{request.method}'")
+    if request.method == 'GET' and not request.path.startswith('/static/'):
+        return render_template('index.html')
+    return jsonify({
+        'success': False,
+        'error': f'요청하신 경로({request.path})를 찾을 수 없습니다.'
+    }), 404
 
 
 if __name__ == '__main__':
